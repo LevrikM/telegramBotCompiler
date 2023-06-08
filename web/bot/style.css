@@ -1,0 +1,70 @@
+body {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+
+body .list-group-item:hover{
+    border-color: black;
+}
+
+#toggleDarkModeButton {
+    border: none;
+    background-color: transparent;
+    color: #343a40;
+    transition: color 0.3s ease;
+}
+
+#toggleDarkModeButton:hover {
+    color: #757575;
+}
+
+a.navbar-brand:hover{
+    cursor: default;
+}
+
+body.dark-mode {
+    background-color: #343a40;
+    color: #fff;
+}
+
+body.dark-mode .container {
+    background-color: #343a40;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode label,
+body.dark-mode .text-danger {
+    color: #fff;
+    transition: color 0.5s;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .btn-primary {
+    background-color: #52575d;
+    color: #fff;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+body.dark-mode .list-group-item {
+    background-color: #52575d;
+    color: #fff;
+    border-color: #343a40;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+body.dark-mode .list-group-item i {
+    color: #fff;
+}
+
+body.dark-mode .list-group-item:hover {
+    border-color: #007bff;
+    color: #fff;
+}
+

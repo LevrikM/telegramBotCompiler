@@ -1,0 +1,10 @@
+{
+    "send_screen" : "Here is a screenshot \n📅 Date: {date}\n⌚ Time: {time}",
+    "reload_buttons_btn" : "Reload buttons",
+    "start_message": "Choose an option:",
+    "program_opened_message": "Opened program: {program_name}",
+    "button_selected_message": "You selected the option: {button_name}",
+    "buttons_reloaded_message": "Menu buttons reloaded!",
+    "unknown_option_message": "Unknown option"
+  }
+  

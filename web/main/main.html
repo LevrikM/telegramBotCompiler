@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title data-trans="titleNav"></title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="eel.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-header">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-cogs"></i>
+            <span data-trans="titleNav"></span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button id="toggleDarkModeButton" class="btn btn-link nav-link">
+                        <i id="toggleDarkModeIcon" class="fas fa-adjust"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <select id="languageSelect" class="form-control" onchange="changeLanguage(this.value)">
+                        <option value="en">EN</option>
+                        <option value="ua">UA</option>
+                        <option value="ru">RU</option>
+                    </select>
+                </li>                                  
+            </ul>
+        </div>    
+    </nav>
+
+
+
+    <div class="container">
+        <h1 class="mt-4" data-trans="title"></h1>
+        <div class="form-group">
+            <label for="tokenInput" data-trans="tokenLabel"></label>
+            <input id="tokenInput" type="text" class="form-control" placeholder="Enter token">
+            <span id="errorMessage" class="text-danger"></span>
+        </div>
+        <button class="btn btn-primary" onclick="saveToken()" data-trans="saveButton"></button>
+    
+        <h2 class="mt-4" data-trans="savedTokens"></h2>
+        <ul id="tokenList" class="list-group"></ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    
+</body>
+</html>

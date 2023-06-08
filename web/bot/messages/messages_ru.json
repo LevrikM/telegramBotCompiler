@@ -1,0 +1,10 @@
+{
+    "send_screen" : "Вот скриншот \n📅 Дата: {date}\n⌚ Время: {time}",
+    "reload_buttons_btn" : "Перезагрузить кнопки",
+    "start_message": "Выберите опцию:",
+    "program_opened_message": "Открыта программа: {program_name}",
+    "button_selected_message": "Вы выбрали опцию: {button_name}",
+    "buttons_reloaded_message": "Меню кнопок обновлено!",
+    "unknown_option_message": "Неизвестная опция"
+  }
+  
