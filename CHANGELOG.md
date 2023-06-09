@@ -2,9 +2,6 @@
 
 All notable changes to the Telegram Bot Compiler project will be documented in this file.
 
-## [Unreleased]
-
---
 ## [1.1.0] - 2023-06-09
 
 ### Added
@@ -34,3 +31,10 @@ All notable changes to the Telegram Bot Compiler project will be documented in t
 
 ### Fixed
 - Fixed display of Cyrillic in Telegram bot and saving to file
+
+
+Old:  
+<img src="https://github.com/LevrikM/telegramBotCompiler/assets/48616642/359ac904-8538-4655-9e18-17f0a1eac5ad" alt="image 1" style="width:700px;">
+<br>
+New:  
+<img src="https://github.com/LevrikM/telegramBotCompiler/assets/48616642/1ffdc7af-b672-401a-87be-4298a24a36a7" alt="image 2" style="width:700px;">
