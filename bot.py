@@ -3,6 +3,8 @@ import eel
 import json
 import os
 import io
+import subprocess
+import pyautogui
 from datetime import datetime
 from telegram import ReplyKeyboardMarkup, KeyboardButton, InputFile
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
@@ -14,14 +16,12 @@ token = sys.argv[1]
 print(f"Received token: {token}")
 
 @eel.expose
-def save_settings(language, theme):
-    settings = {'language': language, 'darkMode': theme}
-
-    # Збереження налаштувань у файлі
+def save_settings(language, theme, showbtn):
+    settings = {'language': language, 'darkMode': theme, 'showBtn' : showbtn}
     with open('settings.json', 'w') as file:
         json.dump(settings, file)
 
-    print(f'Settings saved: [language: {language}, darkMode: {theme}]')
+    print(f'Settings saved: [language: {language}, darkMode: {theme}, showBtn: {showbtn}]')
 
 @eel.expose
 def get_settings():
@@ -29,23 +29,22 @@ def get_settings():
         with open('settings.json', 'r') as file:
             settings = json.load(file)
     except FileNotFoundError:
-        settings = {'language': 'en', 'darkMode': False}  # default
+        settings = {'language': 'en', 'darkMode': False, 'showBtn': True}  # default
 
     return settings
 
 @eel.expose
 def print_to_console(text):
-    print(f'Printed from JS: {text}')
-
+    print(f'BotWindow out: {text}')
 
 ##
 @eel.expose
-def add_button(button_name, button_type, program_name, folder_path):
+def add_button(button_name, button_type, program_name):
     button = {
         "name": button_name,
         "type": button_type,
         "program": program_name if button_type == "openProgram" else "",
-        "folder": folder_path if button_type == "openFolder" else ""
+        # "folder": folder_path if button_type == "openFolder" else ""
     }
 
     buttons_folder = "./web/bot/buttons"
@@ -94,11 +93,9 @@ def delete_button(button_name):
         with open(buttons_file, "w", encoding="utf-8") as f:
             json.dump(filtered_buttons, f, ensure_ascii=False)
 ##
-
-
 @eel.expose
 def return_token():
-    print(f'Returned token: {token}')
+    # print(f'Returned token: {token}')
     return token
 
 def load_buttons_from_file():
@@ -123,12 +120,9 @@ def get_language():
 
 
 def get_message_text(key, language):
-    # Завантажити переклади повідомлень для кожної мови з відповідного файлу
     with open(f'./web/bot/messages/messages_{language}.json', 'r',  encoding="utf-8") as file:
         messages = json.load(file)
-    # Отримати текст повідомлення за ключем
     return messages.get(key, '')
-
 
 updater = Updater(token, use_context=True)
 
@@ -138,10 +132,6 @@ def start(update, context):
     message_text = get_message_text('start_message', language)
 
     update.message.reply_text(message_text, reply_markup=reply_markup)
-
-
-
-
 
 ######
 def create_menu_buttons():
@@ -156,9 +146,6 @@ def create_menu_buttons():
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     return reply_markup
 
-import subprocess
-
-
 
 def open_program(program):
     try:
@@ -171,7 +158,6 @@ def open_program(program):
 def reload_buttons():
     return create_menu_buttons()
 
-import pyautogui
 def button_handler(update, context):
     user_input = update.message.text
     buttons = load_buttons_from_file()
@@ -224,9 +210,7 @@ def stop_bot():
 @eel.expose
 def run_bot():
     try: 
-        
         dispatcher = updater.dispatcher
-
         start_handler = CommandHandler('start', start)
         dispatcher.add_handler(start_handler)
         dispatcher.add_handler(CommandHandler('reload_buttons', reload_buttons))

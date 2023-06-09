@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <head>
     <meta charset="UTF-8">
     <title data-trans="titleNav"></title>
@@ -17,7 +16,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-header">
         <a class="navbar-brand" href="#">
-            <i class="fas fa-cogs"></i>
+            <i class="fa-solid fa-robot mr-2"></i>
             <span data-trans="titleNav"></span>
         </a>
 
@@ -53,19 +52,19 @@
         <h2 class="mt-4" data-trans="savedTokens"></h2>
         <ul id="tokenList" class="list-group"></ul>
 
-        <span data-trans="buttonListLabel"></span>
-        <!-- Додайте кнопку "Toggle Buttons" -->
-        <button id="toggleButtonsButton" class="btn btn-primary btn-sm" onclick="toggleButtons()" data-trans="toggleButtonsButton">
-            <i id="toggleButtonsIcon" class="fa-sharp fa-solid fa-eye"></i>
-            <!-- <i class="fa-solid fa-eye-slash"></i> -->
-        </button>
-
-        <div class="row mt-4 mb-4">
-            <div class="col-md-6" id="column1">
-                <ul id="column1Buttons" class="list-group"></ul>
-            </div>
-            <div class="col-md-6" id="column2">
-                <ul id="column2Buttons" class="list-group"></ul>
+        <div id="btnDiv">
+            <span data-trans="buttonListLabel"></span>
+            <button id="toggleButtonsButton" class="btn btn-primary btn-sm" onclick="toggleButtons()" data-trans="toggleButtonsButton">
+                <i id="toggleButtonsIcon" class="fa-sharp fa-solid fa-eye"></i>
+            </button>
+    
+            <div class="row mt-4 mb-4">
+                <div class="col-md-6" id="column1">
+                    <ul id="column1Buttons" class="list-group"></ul>
+                </div>
+                <div class="col-md-6" id="column2">
+                    <ul id="column2Buttons" class="list-group"></ul>
+                </div>
             </div>
         </div>
 
@@ -148,10 +147,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
 
     <div class="fixed-bottom mb-2 mt-4 text-center">

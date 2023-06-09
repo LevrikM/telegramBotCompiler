@@ -100,114 +100,68 @@ var translations = {
     }
 };
 
-let selectedLanguage = "";
+var selectedLanguage = "";
 var darkModeEnabled = "";
+var buttonsVisible = "";
 
+var toggleButtonsIcon = $("#toggleButtonsIcon");
 var toggleDarkModeButton = $("#toggleDarkModeButton");
 var toggleDarkModeIcon = $("#toggleDarkModeIcon");
+
+//////////////////////////////////////////////////////////////////////////
 
 toggleDarkModeButton.click(function () {
     toggleDarkMode();
 });
 
-function updateTexts() {
-    var translation = translations[selectedLanguage] || translations.en;
 
-    $("[data-trans]").each(function() {
-        var transKey = $(this).data("trans");
-        if (translation.hasOwnProperty(transKey)) {
-            $(this).text(translation[transKey]);
-        }
-    });
+// buttons list
 
-
-    // $('#buttonNameInput').attr('placeholder', translation["placeholderNameInput"])
-    // $('#programNameInput').attr('placeholder', translation["placeholderProgramInput"])
-    // $('#folderPathInput').attr('placeholder', translation["placeholderFolderInput"])
-
-}
-
-function changeLanguage(language){
-    selectedLanguage = language;
-    eel.save_settings(selectedLanguage, darkModeEnabled)
-    updateTexts();
-}
-
-function toggleDarkMode() {
-    darkModeEnabled = !darkModeEnabled;
-    if (darkModeEnabled) {
-        $("body").addClass("dark-mode");
-        toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
-        eel.save_settings(selectedLanguage, true)
-    } else {
-        $("body").removeClass("dark-mode");
-        toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
-        eel.save_settings(selectedLanguage, false)
+function createButtonElement(buttonData) {
+    var buttonElement = $('<li class="list-group-item mb-2"></li>');
+    var deleteButton = $('<button class="btn btn-danger btn-sm float-right"> <i class="fas fa-trash-alt"></i></button>');
+    var buttonText = $('<span></span>').text(buttonData.name);
+    var buttonInfo = $('<span></span>').text(" | " + translations[selectedLanguage][buttonData.type + "Opt"])
+    if(buttonData.type == "openProgram"){
+        var buttonAppFolder = $('<span></span>').text(" -> " + buttonData.program)
     }
-}
-
-
-window.onresize = function () {
-    window.resizeTo(1300, 600);
-}
-
-$( document ).ready(function() {
-    console.log( "ready!" );
-    eel.get_settings()(function(settings) {
-        selectedLanguage = settings.language
-        darkModeEnabled = settings.darkMode;
-        eel.print_to_console('BotWindow: darkModeEnabled: ' + darkModeEnabled)
-
-
-        if (darkModeEnabled) {
-            $("body").addClass("dark-mode");
-            toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
-            
-        } else {
-            $("body").removeClass("dark-mode");
-            toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
-        }
-        eel.print_to_console('BotWindow: selectedlanguage: ' + selectedLanguage)
-        $("#languageSelect").val(selectedLanguage);
-        updateTexts();
-    });
-
-    function createButtonElement(buttonData) {
-        var buttonElement = $('<li class="list-group-item mb-2"></li>');
-        var deleteButton = $('<button class="btn btn-danger btn-sm float-right"> <i class="fas fa-trash-alt"></i></button>');
-        var buttonText = $('<span></span>').text(buttonData.name);
-        var buttonInfo = $('<span></span>').text(" | " + translations[selectedLanguage][buttonData.type + "Opt"])
-        if(buttonData.type == "openProgram"){
-            var buttonAppFolder = $('<span></span>').text(" -> " + buttonData.program)
-        }
-        else if (buttonData.type == "takeScreen"){
-            var buttonAppFolder = "";
-        }
-        else{
-            var buttonAppFolder = $('<span></span>').text(" error occured ")
-        }
-        deleteButton.click(function () {
-            eel.delete_button(buttonData.name)();
-            buttonElement.remove();
-            eel.get_buttons()(function (buttonsData) {
-                renderButtons(buttonsData);
-            });
+    else if (buttonData.type == "takeScreen"){
+        var buttonAppFolder = "";
+    }
+    else{
+        var buttonAppFolder = $('<span></span>').text(" error occured ")
+    }
+    deleteButton.click(function () {
+        eel.delete_button(buttonData.name)();
+        buttonElement.remove();
+        eel.get_buttons()(function (buttonsData) {
+            renderButtons(buttonsData);
         });
+    });
 
-        buttonElement.append(deleteButton);
-        buttonElement.append(buttonText);
-        buttonElement.append(buttonInfo);
-        buttonElement.append(buttonAppFolder);
-        return buttonElement;
+    buttonElement.append(deleteButton);
+    buttonElement.append(buttonText);
+    buttonElement.append(buttonInfo);
+    buttonElement.append(buttonAppFolder);
+    return buttonElement;
+}
+
+function renderButtons(buttonsData) {
+    // eel.print_to_console('render buttons procces start')
+    // eel.print_to_console(buttonsData)
+    // eel.print_to_console('ButtonsData length: ' + buttonsData.length)
+    var column1 = $('#column1Buttons');
+    var column2 = $('#column2Buttons');
+    var btnDiv = document.getElementById('btnDiv')
+
+    column1.empty();
+    column2.empty();
+
+    if(buttonsData.length == 0){
+        btnDiv.style.display = "none";
     }
-
-    function renderButtons(buttonsData) {
-        var column1 = $('#column1Buttons');
-        var column2 = $('#column2Buttons');
-
-        column1.empty();
-        column2.empty();
-
+    else{
+        btnDiv.style.display = "block";
         for (var i = 0; i < buttonsData.length; i++) {
             var buttonData = buttonsData[i];
             var buttonElement = createButtonElement(buttonData);
@@ -220,36 +174,107 @@ $( document ).ready(function() {
         }
     }
 
+    
+}
+
+function updateTexts() {
+    var translation = translations[selectedLanguage] || translations.en;
+
+    $("[data-trans]").each(function() {
+        var transKey = $(this).data("trans");
+        if (translation.hasOwnProperty(transKey)) {
+            $(this).text(translation[transKey]);
+        }
+    });
+
+    eel.get_buttons()(function (buttonsData) {
+        renderButtons(buttonsData);
+    });
+}
+
+function changeLanguage(language){
+    selectedLanguage = language;
+    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
+    updateTexts();
+}
+
+function toggleDarkMode() {
+    darkModeEnabled = !darkModeEnabled;
+    if (darkModeEnabled) {
+        $("body").addClass("dark-mode");
+        toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
+        eel.save_settings(selectedLanguage, true, buttonsVisible)
+    } else {
+        $("body").removeClass("dark-mode");
+        toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
+        eel.save_settings(selectedLanguage, false, buttonsVisible)
+    }
+}
+
+window.onresize = function () {
+    window.resizeTo(1300, 600);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+$( document ).ready(function() {
+    eel.get_settings()(function(settings) {
+        selectedLanguage = settings.language
+        darkModeEnabled = settings.darkMode;
+        buttonsVisible = settings.showBtn == undefined ? true : settings.showBtn
+        eel.print_to_console('language: ' + selectedLanguage)
+        eel.print_to_console('darkMode: ' + darkModeEnabled)
+        eel.print_to_console('buttonsVisible: ' + buttonsVisible)
+
+
+        if (darkModeEnabled) {
+            $("body").addClass("dark-mode");
+            toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
+            
+        } else {
+            $("body").removeClass("dark-mode");
+            toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
+        }
+
+        toggleButtonsOnStart();
+
+        // eel.print_to_console('BotWindow: selectedlanguage: ' + selectedLanguage)
+        $("#languageSelect").val(selectedLanguage);
+        updateTexts();
+    });
+
+    
+
     eel.get_buttons()(function (buttonsData) {
         renderButtons(buttonsData);
     });
 
     
+    // buttons and command add btn - > make then different buttons for adding buttons and commands
     $('#submitButton').click(function () {
-        var buttonName = $('#buttonNameInput').val();
-        var buttonType = $('#buttonTypeSelect').val();
-        var programName = $('#programNameInput').val();
-        var folderPath = $('#folderPathInput').val();
+        var buttonName = $('#buttonNameInput');
+        var buttonType = $('#buttonTypeSelect');
+        var programName = $('#programNameInput');
+        // var folderPath = $('#folderPathInput');
 
-        if(buttonName == ""){
+        if(buttonName.val() == ""){
             alert (translations[selectedLanguage]["placeholderNameInput"] + "!")
             return;
         }
-        if(buttonType == 'openProgram'){
+        if(buttonType.val() == 'openProgram'){
             if(programName == ""){
                 alert (translations[selectedLanguage]["placeholderProgramInput"] + "!")
                 return;
             }
         }
-        else if(buttonType == 'openFolder'){
-            if(folderPath == ""){
-                alert (translations[selectedLanguage]["placeholderFolderInput"] + "!")
-                return;
-            }
-        }
+        // else if(buttonType.val() == 'openFolder'){
+        //     if(folderPath.val() == ""){
+        //         alert (translations[selectedLanguage]["placeholderFolderInput"] + "!")
+        //         return;
+        //     }
+        // }
 
-
-        eel.add_button(buttonName, buttonType, programName + ".exe", folderPath)(function (result) {
+        eel.add_button(buttonName.val(), buttonType.val(), programName.val() + ".exe")(function (result) {
             if(result === "exist"){
                 alert(translations[selectedLanguage]["buttonExist"]);
             }
@@ -261,48 +286,57 @@ $( document ).ready(function() {
             
         });
 
-        $('#buttonNameInput').val('');
-        $('#buttonTypeSelect').val('openProgram');
-        $('#programNameInput').val('');
-        $('#folderPathInput').val('');
+        buttonName.val('');
+        buttonType.val('openProgram');
+        programName.val('');
         toggleButtonForm();
     });
-
-
  });
 
 
 
  
+ // toggles
 function toggleButtonForm() {
     var translation = translations[selectedLanguage]
-    var buttonForm = document.getElementById("buttonForm");
-    var addButton = document.getElementById("addButton");
+    var buttonForm = document.getElementById('buttonForm');
+    var addButton = $('#addButton');
 
     if (buttonForm.style.display === "none") {
         buttonForm.style.display = "block";
-        $('#addButton').html(translation["hideButtonAdd"])
+        addButton.html(translation["hideButtonAdd"])
     } else {
         buttonForm.style.display = "none";
-        $('#addButton').html(translation["addButton"])
+        addButton.html(translation["addButton"])
     }
 }
-var buttonsVisible = true;
-var toggleButtonsIcon = $("#toggleButtonsIcon");
+
+
+function toggleButtonsOnStart(){
+    var column1 = $('#column1');
+    var column2 = $('#column2');
+    // eel.print_to_console('BotWindow: showBtn in toggleButtons: ' + buttonsVisible)
+    if (!buttonsVisible) {
+        column1.hide();
+        column2.hide();
+        toggleButtonsIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
+    }
+}
 
 function toggleButtons() {
     var column1 = $('#column1');
     var column2 = $('#column2');
-
     if (buttonsVisible) {
         column1.hide();
         column2.hide();
         buttonsVisible = false;
+        eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
         toggleButtonsIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
     } else {
         column1.show();
         column2.show();
         buttonsVisible = true;
+        eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
         toggleButtonsIcon.removeClass("fa-solid fa-eye-slash").addClass("fa-sharp fa-solid fa-eye");
     }
 }
@@ -321,25 +355,6 @@ function toggleAddOptions(){
     else{
         addButtonsOptions.style.display = "none";
         addCommandsOptions.style.display = "none";
-    }
-}
-
-function commandTypeChange(){
-    var commandTypeChange = document.getElementById("commandTypeSelect");
-    var filePathGroup = document.getElementById("filePathGroup");
-
-    if (commandTypeChange.value === "stopBot") {
-        // 
-        filePathGroup.style.display = "none"; 
-    } else if (commandTypeChange.value === "restartBot") {
-        // 
-        filePathGroup.style.display = "none"; 
-    } else if (commandTypeChange.value === "getFile") {
-        // 
-        filePathGroup.style.display = "block"; 
-    } else {
-        //
-        filePathGroup.style.display = "none"; 
     }
 }
 
@@ -363,7 +378,26 @@ function toggleButtonOptions() {
     }
 }
 
+//
 
+function commandTypeChange(){
+    var commandTypeChange = document.getElementById("commandTypeSelect");
+    var filePathGroup = document.getElementById("filePathGroup");
+
+    if (commandTypeChange.value === "stopBot") {
+        // 
+        filePathGroup.style.display = "none"; 
+    } else if (commandTypeChange.value === "restartBot") {
+        // 
+        filePathGroup.style.display = "none"; 
+    } else if (commandTypeChange.value === "getFile") {
+        // 
+        filePathGroup.style.display = "block"; 
+    } else {
+        //
+        filePathGroup.style.display = "none"; 
+    }
+}
 
 function runProgram(){
     if(eel.run_bot()(function(response){

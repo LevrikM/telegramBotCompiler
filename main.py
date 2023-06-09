@@ -63,7 +63,7 @@ def get_settings():
 
 @eel.expose
 def print_to_console(text):
-    print(f'Printed from JS: {text}')
+    print(f'TokenWindows out: {text}')
 
 
 import subprocess

@@ -1,0 +1,11 @@
+# Ignore files in web/bot/buttons/ directory
+web/bot/buttons/
+
+# Ignore tokens.json file
+tokens.json
+
+# Ignore settings.json file
+settings.json
+
+# Ignore desktop.ini file
+desktop.ini

@@ -152,7 +152,8 @@ window.onload = function() {
     eel.get_settings()(function(settings) {
         selectedLanguage = settings.language
         darkModeEnabled = settings.darkMode;
-        eel.print_to_console('settings.darkMode: ' + settings.darkMode)
+        eel.print_to_console('language: ' + selectedLanguage)
+        eel.print_to_console('darkMode: ' + darkModeEnabled)
 
 
         if (darkModeEnabled) {
