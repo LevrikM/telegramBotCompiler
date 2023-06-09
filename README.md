@@ -1,6 +1,4 @@
-# Project Title
-
-Telegram Bot Compiler
+# Telegram Bot Compiler
 
 ## Description
 
@@ -48,5 +46,5 @@ Telegram: [t.me/xwkwx](https://t.me/xwkwx)
 ## Screenshots
 
 ![Screenshot 1](https://github.com/LevrikM/LevrikM.github.io/assets/48616642/07ef6fd2-b82d-4011-885b-cc3e01ae410d)
-![Screenshot 2](https://github.com/LevrikM/LevrikM.github.io/assets/48616642/a680ac82-ed23-45bc-ae6e-ff2db942f455)
-![Screenshot 3](https://github.com/LevrikM/telegramBotCompiler/assets/48616642/3e5bc243-6f16-460f-97c6-97b9bb8ac0ca)
+![Screenshot 2](https://github.com/LevrikM/telegramBotCompiler/assets/48616642/9ad3f774-cfca-4719-94d5-7c76c0ce0ef6)
+![Screenshot 3](https://github.com/LevrikM/telegramBotCompiler/assets/48616642/4145c315-b1f0-4288-9290-f67cea45cb47)
