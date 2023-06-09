@@ -27,7 +27,7 @@ Contributions are welcome! If you would like to contribute to the Telegram Bot C
 
 ## License
 
-The Button Management System is released under the [MIT License](https://opensource.org/licenses/MIT).
+The Telegram Bot Compiler is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Acknowledgements
 

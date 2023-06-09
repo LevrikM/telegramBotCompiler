@@ -21,3 +21,16 @@ All notable changes to the Telegram Bot Compiler project will be documented in t
 
 ### Removed
 - Removed the 'folder' field in the button file for the bot due to its non-use in the program.
+
+
+## [1.1.1] - 2023-06-09
+
+### Added
+- Hide the full list of tokens if there are none and vice versa.
+- Added a button to hide the active bot token in settings with state saving
+
+### Changed
+- The hide buttons button has been changed to a more convenient and understandable one
+
+### Fixed
+- Fixed display of Cyrillic in Telegram bot and saving to file

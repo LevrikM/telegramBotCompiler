@@ -40,8 +40,9 @@ body.dark-mode .text-danger {
     transition: color 0.5s;
 }
 
-body.dark-mode .form-control,
-body.dark-mode .btn-primary {
+body.dark-mode .form-control
+/* body.dark-mode .btn-primary { */
+    {
     background-color: #52575d;
     color: #fff;
     transition: background-color 0.5s, color 0.5s;

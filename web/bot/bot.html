@@ -47,16 +47,24 @@
         <h1 class="mt-4" data-trans="title"></h1>
         <div class="form-group">
             <label for="tokenInput" data-trans="tokenLabel"></label>
-            <input id="tokenInput" type="text" class="form-control" placeholder="" disabled>
+            <div class="input-group">
+                <input id="tokenInput" type="text" class="form-control" placeholder="" disabled>
+                <div class="input-group-append">
+                    <button id="showTokenButton" class="btn btn-secondary" type="button" onclick="toggleShowToken()">
+                        <i id="toggleShowPassIcon" class="fa-sharp fa-solid fa-eye"></i></button>
+                </div>
+            </div>
         </div>
         <h2 class="mt-4" data-trans="savedTokens"></h2>
         <ul id="tokenList" class="list-group"></ul>
 
         <div id="btnDiv">
             <span data-trans="buttonListLabel"></span>
-            <button id="toggleButtonsButton" class="btn btn-primary btn-sm" onclick="toggleButtons()" data-trans="toggleButtonsButton">
-                <i id="toggleButtonsIcon" class="fa-sharp fa-solid fa-eye"></i>
+            <button id="toggleButtonsButton" class="btn btn-sm" onclick="toggleButtons()" data-trans="toggleButtonsButton" style="border: none; background-color: transparent;">
+                <!-- <i  class="fa-sharp fa-solid fa-eye"></i> -->
+                <i id="toggleButtonsIcon" class="fas fa-minus"></i>
             </button>
+            
     
             <div class="row mt-4 mb-4">
                 <div class="col-md-6" id="column1">

@@ -103,7 +103,10 @@ var translations = {
 var selectedLanguage = "";
 var darkModeEnabled = "";
 var buttonsVisible = "";
+var tokenVisible = "";
 
+
+var toggleShowPassIcon = $("#toggleShowPassIcon");
 var toggleButtonsIcon = $("#toggleButtonsIcon");
 var toggleDarkModeButton = $("#toggleDarkModeButton");
 var toggleDarkModeIcon = $("#toggleDarkModeIcon");
@@ -194,7 +197,7 @@ function updateTexts() {
 
 function changeLanguage(language){
     selectedLanguage = language;
-    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
+    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible, tokenVisible)
     updateTexts();
 }
 
@@ -202,13 +205,14 @@ function toggleDarkMode() {
     darkModeEnabled = !darkModeEnabled;
     if (darkModeEnabled) {
         $("body").addClass("dark-mode");
+        toggleButtonsIcon.css("color", "#ffffff");
         toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
-        eel.save_settings(selectedLanguage, true, buttonsVisible)
     } else {
+        toggleButtonsIcon.css("color", "");
         $("body").removeClass("dark-mode");
         toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
-        eel.save_settings(selectedLanguage, false, buttonsVisible)
     }
+    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible, tokenVisible)
 }
 
 window.onresize = function () {
@@ -222,21 +226,26 @@ $( document ).ready(function() {
         selectedLanguage = settings.language
         darkModeEnabled = settings.darkMode;
         buttonsVisible = settings.showBtn == undefined ? true : settings.showBtn
+        tokenVisible = settings.tokenVisible == undefined ? true : settings.tokenVisible
         eel.print_to_console('language: ' + selectedLanguage)
         eel.print_to_console('darkMode: ' + darkModeEnabled)
         eel.print_to_console('buttonsVisible: ' + buttonsVisible)
+        eel.print_to_console('tokenVisible: ' + tokenVisible)
 
 
         if (darkModeEnabled) {
             $("body").addClass("dark-mode");
+            toggleButtonsIcon.css("color", "#ffffff");
             toggleDarkModeIcon.removeClass("fa-adjust").addClass("fa-sun");
             
         } else {
             $("body").removeClass("dark-mode");
+            toggleButtonsIcon.css("color", "");
             toggleDarkModeIcon.removeClass("fa-sun").addClass("fa-adjust");
         }
 
         toggleButtonsOnStart();
+        toggleShowTokenOnStart();
 
         // eel.print_to_console('BotWindow: selectedlanguage: ' + selectedLanguage)
         $("#languageSelect").val(selectedLanguage);
@@ -310,7 +319,14 @@ function toggleButtonForm() {
         addButton.html(translation["addButton"])
     }
 }
+//// onStart
 
+function toggleShowTokenOnStart(){
+    if(!tokenVisible){
+        tokenInput.type = "password";
+        toggleShowPassIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
+    }
+}
 
 function toggleButtonsOnStart(){
     var column1 = $('#column1');
@@ -319,9 +335,25 @@ function toggleButtonsOnStart(){
     if (!buttonsVisible) {
         column1.hide();
         column2.hide();
-        toggleButtonsIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
+        toggleButtonsIcon.removeClass("fas fa-minus").addClass("fas fa-plus");
     }
 }
+
+////////
+function toggleShowToken(){
+    var tokenInput = document.getElementById("tokenInput");
+    if (tokenInput.type === "password") {
+        tokenInput.type = "text";
+        tokenVisible = true
+        toggleShowPassIcon.removeClass("fa-solid fa-eye-slash").addClass("fa-sharp fa-solid fa-eye");
+    } else {
+        tokenInput.type = "password";
+        tokenVisible = false
+        toggleShowPassIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
+    }
+    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible, tokenVisible)
+}
+
 
 function toggleButtons() {
     var column1 = $('#column1');
@@ -330,15 +362,14 @@ function toggleButtons() {
         column1.hide();
         column2.hide();
         buttonsVisible = false;
-        eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
-        toggleButtonsIcon.removeClass("fa-sharp fa-solid fa-eye").addClass("fa-solid fa-eye-slash");
+        toggleButtonsIcon.removeClass("fas fa-minus").addClass("fas fa-plus");
     } else {
         column1.show();
         column2.show();
         buttonsVisible = true;
-        eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible)
-        toggleButtonsIcon.removeClass("fa-solid fa-eye-slash").addClass("fa-sharp fa-solid fa-eye");
+        toggleButtonsIcon.removeClass("fas fa-plus").addClass("fas fa-minus");
     }
+    eel.save_settings(selectedLanguage, darkModeEnabled, buttonsVisible, tokenVisible)
 }
 
 function toggleAddOptions(){

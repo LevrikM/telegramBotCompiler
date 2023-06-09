@@ -16,12 +16,12 @@ token = sys.argv[1]
 print(f"Received token: {token}")
 
 @eel.expose
-def save_settings(language, theme, showbtn):
-    settings = {'language': language, 'darkMode': theme, 'showBtn' : showbtn}
+def save_settings(language, theme, showbtn, tokenVisible):
+    settings = {'language': language, 'darkMode': theme, 'showBtn' : showbtn, 'tokenVisible': tokenVisible}
     with open('settings.json', 'w') as file:
         json.dump(settings, file)
 
-    print(f'Settings saved: [language: {language}, darkMode: {theme}, showBtn: {showbtn}]')
+    print(f'Settings saved: [language: {language}, darkMode: {theme}, showBtn: {showbtn}, tokenVisible: {tokenVisible}]')
 
 @eel.expose
 def get_settings():
@@ -29,7 +29,7 @@ def get_settings():
         with open('settings.json', 'r') as file:
             settings = json.load(file)
     except FileNotFoundError:
-        settings = {'language': 'en', 'darkMode': False, 'showBtn': True}  # default
+        settings = {'language': 'en', 'darkMode': False, 'showBtn': True, 'tokenVisible' : True}  # default
 
     return settings
 
@@ -52,7 +52,7 @@ def add_button(button_name, button_type, program_name):
     buttons_file = os.path.join(buttons_folder, f"buttons_{token[:5]}.json")
 
     if os.path.exists(buttons_file):
-        with open(buttons_file) as f:
+        with open(buttons_file, encoding="utf-8") as f:
             buttons_data = json.load(f)
     else:
         buttons_data = []
@@ -85,7 +85,7 @@ def delete_button(button_name):
     buttons_file = os.path.join(buttons_folder, f"buttons_{token[:5]}.json")
 
     if os.path.exists(buttons_file):
-        with open(buttons_file) as f:
+        with open(buttons_file, encoding="utf-8") as f:
             buttons_data = json.load(f)
         
         filtered_buttons = [button for button in buttons_data if button["name"] != button_name]
@@ -101,7 +101,7 @@ def return_token():
 def load_buttons_from_file():
     buttons_file = f'./web/bot/buttons/buttons_{token[:5]}.json'
     buttons = []
-    with open(buttons_file, 'r') as file:
+    with open(buttons_file, 'r', encoding="utf-8") as file:
         buttons_data = json.load(file)
         if isinstance(buttons_data, list):
             buttons = buttons_data

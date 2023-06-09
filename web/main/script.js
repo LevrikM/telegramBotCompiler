@@ -28,26 +28,34 @@ function deleteToken(token) {
 function updateTokensList() {
     eel.get_saved_tokens_js()(function(tokens) {
         var tokenList = document.getElementById("tokenList");
-        tokenList.innerHTML = "";
-        for (var i = 0; i < tokens.length; i++) {
-            var token = tokens[i];
-            var listItem = document.createElement("li");
-            listItem.className = "list-group-item d-flex justify-content-between align-items-center mb-2";
-            listItem.innerHTML = `
-                <span>${token}</span>
-                <div>
-                    <button class="btn btn-sm btn-primary mr-2" onclick="copyToken('${token}')">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger mr-2" onclick="deleteToken('${token}')">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                    <button class="btn btn-sm btn-success" onclick="runProgram('${token}')">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>`;
-            tokenList.appendChild(listItem);
+        var savedTokens = document.getElementById("savedTokens");
+        if(tokens.length == 0){
+            savedTokens.style.display = "none";
         }
+        else{
+            savedTokens.style.display = "block";
+            tokenList.innerHTML = "";
+            for (var i = 0; i < tokens.length; i++) {
+                var token = tokens[i];
+                var listItem = document.createElement("li");
+                listItem.className = "list-group-item d-flex justify-content-between align-items-center mb-2";
+                listItem.innerHTML = `
+                    <span>${token}</span>
+                    <div>
+                        <button class="btn btn-sm btn-primary mr-2" onclick="copyToken('${token}')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger mr-2" onclick="deleteToken('${token}')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="runProgram('${token}')">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>`;
+                tokenList.appendChild(listItem);
+            }
+        }
+        
     });
 }
 
